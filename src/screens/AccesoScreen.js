@@ -7,9 +7,9 @@ import {
   TextInput, 
   View, 
   ActivityIndicator,
-  AsyncStorage 
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import firebase from 'firebase';
 import axios from 'axios';
@@ -23,9 +23,10 @@ class AccesoScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { email: '', password: '', loading: false };
+    this.loadData();
   }
 
-  login() {
+  login = async() => {
     
     this.setState({loading:true});
 
@@ -40,9 +41,18 @@ class AccesoScreen extends Component {
   }
 
   loginSuccess = async() => {
-    await AsyncStorage.setItem('userToken', 'Usuario');
+    await AsyncStorage.setItem('userToken', '1');
     this.setState({loading:false});
     this.props.navigation.navigate('Dashboard');
+  }
+
+  loadData = async() => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (userToken === '1'){
+      this.props.navigation.navigate('Dashboard');
+    } else {
+      this.props.navigation.navigate('Welcome');
+    }
   }
 
   renderButton(){

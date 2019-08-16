@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 
 class DetalleLaboralScreen extends Component {
   render() {
     return (
-      <Text> Detalle Laboral </Text>
+      <View>
+        <StatusBar backgroundColor='#003c8f' barStyle='light-content' />
+        <Text> Detalle Laboral </Text>
+      </View>
     );
   }
 }

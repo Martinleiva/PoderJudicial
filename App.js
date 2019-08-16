@@ -9,6 +9,7 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import CargaScreen from './src/screens/CargaScreen';
 import AccesoScreen from './src/screens/AccesoScreen';
 import DetalleLaboralScreen from './src/screens/DetalleLaboralScreen';
 import DetalleEmpleadoScreen from './src/screens/DetalleEmpleadoScreen';
@@ -18,6 +19,7 @@ class App extends Component {
   //state = {loggedIn: null};
 
   componentDidMount(){
+
     if (!firebase.apps.length) {
       firebase.initializeApp({
         apiKey: "AIzaSyCk9gVeZVujLjHWUmNxL9E9P5xGKwuJnRs",
@@ -29,19 +31,9 @@ class App extends Component {
         appId: "1:889389599184:web:699be33f6dd02cc7"
       });
     }
-
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user){
-        //this.setState({loggedIn: true});
-        () => navigation.navigate('Dashboard');
-      } else {
-        //this.setState({loggedIn: false});
-        () => navigation.navigate('Welcome');
-      }
-    });
   }
 
-  
+
 
   render() {
     return (
