@@ -5,10 +5,13 @@ import {
   Text, 
   StyleSheet, 
   TextInput, 
-  View,  
+  View, 
+  ActivityIndicator,
+  AsyncStorage 
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
+import firebase from 'firebase';
 import axios from 'axios';
 import qs from 'qs';
 
@@ -19,31 +22,41 @@ import Logo from '../components/Logo';
 class AccesoScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '' };
+    this.state = { email: '', password: '', loading: false };
   }
 
-  login = () => {
-    axios.post('http://31.220.63.104/usuario/api/v1/login/', qs.stringify({
-      email: this.state.email,
-      password: this.state.password 
-    }))
-    .then((response) => {
-      console.log(response);
-      this.props.navigation.navigate('Dashboard');
-      
-      // this.setState({ 
-      //   email: response.data.email,
-      //   nombre: response.data.nombre,
-      // });
-    })
-    .catch((error) => {
-      alert(error.response.data.message);
-      this.setState({ 
-        //error: error.response.data.message,
-      });
-    });
+  login() {
+    
+    this.setState({loading:true});
+
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+    .then(this.loginSuccess.bind(this))
+    .catch(this.loginFail.bind(this));
   }
 
+  loginFail() {
+    this.setState({loading:false});
+    alert("Email o contraseña incorrecta");
+  }
+
+  loginSuccess = async() => {
+    await AsyncStorage.setItem('userToken', 'Usuario');
+    this.setState({loading:false});
+    this.props.navigation.navigate('Dashboard');
+  }
+
+  renderButton(){
+    if (this.state.loading){
+      return(
+        <ActivityIndicator size='large' color='#1565c0'/>
+      );
+    }
+    return (
+      <TouchableOpacity style={styles.button} onPress={this.login.bind(this)}>
+        <Text style={styles.buttonText}>ENTRAR</Text>
+      </TouchableOpacity>
+    )
+  }
   render() {
     return (
         <ScrollView> 
@@ -55,6 +68,7 @@ class AccesoScreen extends Component {
                 underlineColorAndroid='#1e88e5' 
                 placeholder="Usuario"
                 keyboardType="email-address"
+                autoCapitalize="none"
                 onChangeText={(email) => this.setState({ email })}
                 onSubmitEditing={() => this.password.focus()}
             />
@@ -63,13 +77,11 @@ class AccesoScreen extends Component {
                 secureTextEntry
                 underlineColorAndroid='#1e88e5' 
                 placeholder="Contraseña" 
+                autoCapitalize="none"
                 onChangeText={(password) => this.setState({ password })}
                 ref={(input) => this.password = input}
             />
-            
-            <TouchableOpacity style={styles.button} onPress={this.login}>
-                <Text style={styles.buttonText}>ENTRAR</Text>
-            </TouchableOpacity>
+            {this.renderButton()}
           </View>
         </ScrollView>
     );
@@ -108,4 +120,17 @@ buttonText: {
     color: '#fff',
 }
 });
+
+// axios.post('http://httpbin.org/post', qs.stringify({
+//       email: this.state.email,
+//       password: this.state.password 
+//     }))
+//     .then((response) => {
+//       this.props.navigation.navigate('Dashboard');
+//       this.setState({onLogin: true});
+//       console.log(response, this.state.login);
+//     })
+//     .catch((error) => {
+//       alert(error.response.data.message);
+//     });
 
