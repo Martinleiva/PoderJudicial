@@ -20,33 +20,34 @@ class DrawerContent extends Component {
         <Text style={styles.textStyle}>Cargo</Text>
 
         <View style={styles.lineStyle}></View>
-        <View style={{lex: 1, flexDirection: 'row', alignItems: 'center'}}>
+
+        <View style={{lex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 15}}>
           <Icon size={25} type='material-community' name='bank' />
           <Text style={styles.textStyle}>Dependencia</Text>
         </View>
 
-        <View style={{lex: 1, flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 15}}>
           <Icon size={25} type='material-community' name='folder' />
           <Text style={styles.textStyle}>N° Legajo</Text>
         </View>
 
         <View style={styles.lineStyle} />
 
-        <View style={{lex: 1, flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 15}}>
           <Icon size={25} type='material-community' name='map-marker' />
           <Text style={styles.textStyle}>Domicilio</Text>
         </View>
 
         <View style={styles.lineStyle} />
 
-        <View style={{lex: 1, flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 15}}>
           <Icon size={25} type='material-community' name='phone' />
           <Text style={styles.textStyle}>Telefono</Text>
         </View>
 
         <View style={styles.lineStyle} />
 
-        <View style={{lex: 1, flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 15}}>
           <Icon size={25} type='material-community' name='email' />
           <Text style={styles.textStyle}>Email</Text>
         </View>
