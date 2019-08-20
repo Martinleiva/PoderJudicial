@@ -4,12 +4,13 @@ import {
   createSwitchNavigator,
   createAppContainer, 
   createDrawerNavigator, 
-  createBottomTabNavigator, 
-  createStackNavigator } from 'react-navigation';
+  createStackNavigator} from 'react-navigation';
+
+import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import CargaScreen from './src/screens/CargaScreen';
+import DrawerContent from './src/screens/DrawerContent';
 import AccesoScreen from './src/screens/AccesoScreen';
 import DetalleLaboralScreen from './src/screens/DetalleLaboralScreen';
 import DetalleEmpleadoScreen from './src/screens/DetalleEmpleadoScreen';
@@ -44,24 +45,39 @@ class App extends Component {
 
 export default App;
 
-const DashboardTabNav = createBottomTabNavigator({
-  Personal: DetalleEmpleadoScreen,
-  Laboral: DetalleLaboralScreen,
-}, { 
-  navigationOptions: ({ navigation }) => {
-    const { routeName } = navigation.state.routes[navigation.state.index];
-    return {
-      headerTitle: routeName,
-    };
+const DashboardTabNav = createMaterialBottomTabNavigator({
+  Personal: { 
+    screen: DetalleEmpleadoScreen, 
+    navigationOptions:{
+      title: 'PERSONAL',
+      tabBarIcon: ({ tintColor }) => (
+        <Icon size={25} type='material-community' name='account' style={{color: tintColor}}/>
+      )
+    }
   },
-  
+  Laboral: { 
+    screen: DetalleLaboralScreen,
+    navigationOptions:{
+      title: 'LABORAL',
+      tabBarIcon: ({ tintColor }) => (
+        <Icon size={25} type='material-community' name='briefcase' style={{color: tintColor}}/>
+      )
+    }
+  },
+}, {
+  initialRouteName: 'Personal',
+  activeColor: '#1565c0',
+  shifting: true,
+  barStyle: {backgroundColor: '#f2f2f2' },
 });
 
 const DashboardStackNav = createStackNavigator({
   DashboardTabNav: DashboardTabNav
 }, {
   defaultNavigationOptions: ({ navigation }) => {
+    const { routeName } = navigation.state.routes[navigation.state.index];
     return {
+      headerTitle:('Detalle '+ routeName),
       headerTitleStyle: {
         color: '#fff'
       },
@@ -83,6 +99,8 @@ const DashboardStackNav = createStackNavigator({
 
 const AppDrawerNav = createDrawerNavigator({
     Dashboard: DashboardStackNav
+},{
+  contentComponent: DrawerContent
 });
 
 const AppSwitchNav = createSwitchNavigator({

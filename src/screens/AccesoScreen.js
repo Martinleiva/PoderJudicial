@@ -16,6 +16,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 import Logo from '../components/Logo';
+import Header from '../components/Header';
 //import Form from '../components/Form';
 
 
@@ -69,8 +70,9 @@ class AccesoScreen extends Component {
   }
   render() {
     return (
-        <ScrollView> 
+        <ScrollView style={styles.scrollStyle}> 
             <StatusBar backgroundColor='#003c8f' barStyle='light-content' />
+            <Header headerText='Acceso' />
             <Logo />
             <View style={styles.container}> 
             <TextInput 
@@ -128,6 +130,10 @@ buttonText: {
     fontSize: 20,
     fontWeight: '700',
     color: '#fff',
+},
+
+scrollStyle: {
+  backgroundColor:'#fff'
 }
 });
 
